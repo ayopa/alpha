@@ -1,0 +1,9 @@
+[submodule "crosstool-ng"]
+	path = crosstool-ng
+	url = https://github.com/ayopa/crosstool-ng.git
+[submodule "ncurses"]
+	path = ncurses
+	url = https://github.com/ayopa/ncurses.git
+[submodule "bash"]
+	path = bash
+	url = git://git.savannah.gnu.org/bash.git

@@ -1,0 +1,53 @@
+#!/usr/bin/bash
+
+set -e
+set -x
+
+script_path=$(readlink -f "$0")
+base_dir=$(dirname "$script_path")
+conf_dir="$base_dir/conf"
+tools_dir="$base_dir/tools"
+sysroot_dir="$base_dir/sysroot"
+stamps_dir="$base_dir/stamps"
+
+build_auto() {
+    ./configure --prefix=/usr --build=$@
+    make
+    make install DESTDIR="$sysroot_dir"
+}
+
+build_crosstool-ng() {
+    ./bootstrap
+    ./configure --enable-local
+    make
+
+    cp "$conf_dir"/crosstool-ng .config
+
+    ./ct-ng build
+}
+
+build_ncurses() {
+    build_auto
+}
+
+build_bash() {
+    build_auto
+}
+
+export PATH="$tools_dir":$PATH
+export MAKEFLAGS=-j8
+export CPPFLAGS="-I$sysroot_dir/usr/include"
+export LDFLAGS="-L$sysroot_dir/usr/lib"
+
+mkdir -p "$stamps_dir"
+
+for module in crosstool-ng ncurses bash
+do
+    if [ ! -f "$stamps_dir"/"$module" ]; then
+        pushd "$module"
+        build_$module
+        popd
+
+        touch "$stamps_dir"/"$module"
+    fi
+done
