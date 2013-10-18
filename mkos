@@ -9,9 +9,11 @@ conf_dir="$base_dir/conf"
 tools_dir="$base_dir/tools"
 sysroot_dir="$base_dir/sysroot"
 stamps_dir="$base_dir/stamps"
+host=x86_64-unknown-linux-gnu
+target=i686-unknown-linux-gnu
 
 build_auto() {
-    ./configure --prefix=/usr $@
+    ./configure $@ --prefix=/usr --host=$target --build=$host
     make
     make install DESTDIR="$sysroot_dir"
 }
@@ -27,7 +29,7 @@ build_crosstool-ng() {
 }
 
 build_ncurses() {
-    build_auto
+    build_auto --without-ada
 }
 
 build_bash() {
@@ -48,12 +50,14 @@ mkdir -p "$stamps_dir"
 
 build_module crosstool-ng
 
-export PATH="$tools_dir"/x86_64-unknown-linux-gnu/bin:$PATH
-export MAKEFLAGS=-j8
+export PATH="$tools_dir"/bin:$PATH
 export CPPFLAGS="-I$sysroot_dir/usr/include"
 export LDFLAGS="-L$sysroot_dir/usr/lib"
+export MAKEFLAGS=-j8
 
 for module in ncurses bash
 do
     build_module $module
 done
+
+cp -a "$tools_dir"/$target/sysroot/* "$sysroot_dir"

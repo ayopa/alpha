@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
-# crosstool-NG hg+unknown-20131018.162325 Configuration
-# Fri Oct 18 16:24:53 2013
+# crosstool-NG hg+unknown-20131018.204226 Configuration
+# Fri Oct 18 20:43:36 2013
 #
 CT_CONFIGURE_has_xz=y
 CT_CONFIGURE_has_cvs=y
@@ -28,7 +28,7 @@ CT_PREFIX_DIR="${HOME}/alpha/tools"
 CT_INSTALL_DIR="${CT_PREFIX_DIR}"
 CT_RM_RF_PREFIX_DIR=y
 CT_REMOVE_DOCS=y
-CT_INSTALL_DIR_RO=y
+# CT_INSTALL_DIR_RO is not set
 CT_STRIP_ALL_TOOLCHAIN_EXECUTABLES=y
 
 #
@@ -89,33 +89,23 @@ CT_LOG_FILE_COMPRESS=y
 #
 # Target options
 #
-CT_ARCH="arm"
-CT_ARCH_SUPPORTS_BOTH_MMU=y
-CT_ARCH_SUPPORTS_BOTH_ENDIAN=y
+CT_ARCH="x86"
 CT_ARCH_SUPPORTS_32=y
+CT_ARCH_SUPPORTS_64=y
 CT_ARCH_SUPPORTS_WITH_ARCH=y
 CT_ARCH_SUPPORTS_WITH_CPU=y
 CT_ARCH_SUPPORTS_WITH_TUNE=y
-CT_ARCH_SUPPORTS_WITH_FLOAT=y
-CT_ARCH_SUPPORTS_WITH_FPU=y
-CT_ARCH_SUPPORTS_SOFTFP=y
-CT_ARCH_DEFAULT_HAS_MMU=y
-CT_ARCH_DEFAULT_LE=y
 CT_ARCH_DEFAULT_32=y
-CT_ARCH_ARCH=""
+CT_ARCH_ARCH="i686"
 CT_ARCH_CPU=""
 CT_ARCH_TUNE=""
-CT_ARCH_FPU=""
-# CT_ARCH_BE is not set
-CT_ARCH_LE=y
 CT_ARCH_32=y
+# CT_ARCH_64 is not set
 CT_ARCH_BITNESS=32
-CT_ARCH_FLOAT_HW=y
-# CT_ARCH_FLOAT_SW is not set
 CT_TARGET_CFLAGS=""
 CT_TARGET_LDFLAGS=""
-CT_ARCH_arm=y
-# CT_ARCH_x86 is not set
+# CT_ARCH_arm is not set
+CT_ARCH_x86=y
 # CT_ARCH_sh is not set
 # CT_ARCH_avr32 is not set
 # CT_ARCH_mips is not set
@@ -144,23 +134,11 @@ CT_ARCH_SUFFIX=""
 #
 # CT_MULTILIB is not set
 CT_ARCH_USE_MMU=y
-CT_ARCH_ENDIAN="little"
 
 #
 # Target optimisations
 #
-# CT_ARCH_FLOAT_SOFTFP is not set
-CT_ARCH_FLOAT="hard"
-
-#
-# arm other options
-#
-CT_ARCH_ARM_MODE="arm"
-CT_ARCH_ARM_MODE_ARM=y
-# CT_ARCH_ARM_MODE_THUMB is not set
-# CT_ARCH_ARM_INTERWORKING is not set
-CT_ARCH_ARM_EABI_FORCE=y
-CT_ARCH_ARM_EABI=y
+CT_ARCH_FLOAT=""
 
 #
 # Toolchain options
@@ -212,6 +190,7 @@ CT_KERNEL="linux"
 CT_KERNEL_VERSION="3.11.4"
 # CT_KERNEL_bare_metal is not set
 CT_KERNEL_linux=y
+# CT_KERNEL_windows is not set
 CT_KERNEL_bare_metal_AVAILABLE=y
 CT_KERNEL_linux_AVAILABLE=y
 CT_KERNEL_V_3_11_4=y
@@ -444,7 +423,6 @@ CT_LIBC_XLDD=y
 #
 # glibc other options
 #
-CT_LIBC_GLIBC_MAY_FORCE_PORTS=y
 CT_LIBC_glibc_familly=y
 CT_LIBC_GLIBC_EXTRA_CONFIG_ARRAY=""
 CT_LIBC_GLIBC_CONFIGPARMS=""
@@ -453,28 +431,8 @@ CT_LIBC_EXTRA_CC_ARGS=""
 # CT_LIBC_DISABLE_VERSIONING is not set
 CT_LIBC_OLDEST_ABI=""
 CT_LIBC_GLIBC_FORCE_UNWIND=y
-CT_LIBC_GLIBC_USE_PORTS=y
+# CT_LIBC_GLIBC_USE_PORTS is not set
 CT_LIBC_ADDONS_LIST=""
-
-#
-# WARNING !!!                                            
-#
-
-#
-#   For glibc >= 2.8, it can happen that the tarballs    
-#
-
-#
-#   for the addons are not available for download.       
-#
-
-#
-#   If that happens, bad luck... Try a previous version  
-#
-
-#
-#   or try again later... :-(                            
-#
 # CT_LIBC_LOCALES is not set
 # CT_LIBC_GLIBC_KERNEL_VERSION_NONE is not set
 CT_LIBC_GLIBC_KERNEL_VERSION_AS_HEADERS=y
