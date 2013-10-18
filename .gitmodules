@@ -7,3 +7,6 @@
 [submodule "bash"]
 	path = bash
 	url = git://git.savannah.gnu.org/bash.git
+[submodule "wayland"]
+	path = wayland
+	url = git://anongit.freedesktop.org/wayland/wayland

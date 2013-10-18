@@ -13,7 +13,14 @@ host=x86_64-unknown-linux-gnu
 target=i686-unknown-linux-gnu
 
 build_auto() {
-    ./configure $@ --prefix=/usr --host=$target --build=$host
+    if [ -f configure ]; then
+        configure=configure
+    else
+        configure=autogen.sh
+    fi
+
+    ./$configure $@ --prefix=/usr --host=$target --build=$host
+
     make
     make install DESTDIR="$sysroot_dir"
 }
@@ -26,6 +33,8 @@ build_crosstool-ng() {
     cp "$conf_dir"/crosstool-ng .config
 
     ./ct-ng build
+
+    cp -a "$tools_dir"/$target/sysroot/* "$sysroot_dir"
 }
 
 build_ncurses() {
@@ -33,6 +42,10 @@ build_ncurses() {
 }
 
 build_bash() {
+    build_auto
+}
+
+build_wayland() {
     build_auto
 }
 
@@ -51,13 +64,12 @@ mkdir -p "$stamps_dir"
 build_module crosstool-ng
 
 export PATH="$tools_dir"/bin:$PATH
-export CPPFLAGS="-I$sysroot_dir/usr/include"
-export LDFLAGS="-L$sysroot_dir/usr/lib"
+export CC="$target-gcc --sysroot=$sysroot_dir"
+export LD="$target-ld --sysroot=$sysroot_dir"
 export MAKEFLAGS=-j8
 
-for module in ncurses bash
+for module in ncurses bash wayland
 do
     build_module $module
 done
 
-cp -a "$tools_dir"/$target/sysroot/* "$sysroot_dir"
