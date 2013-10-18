@@ -11,7 +11,7 @@ sysroot_dir="$base_dir/sysroot"
 stamps_dir="$base_dir/stamps"
 
 build_auto() {
-    ./configure --prefix=/usr --build=$@
+    ./configure --prefix=/usr $@
     make
     make install DESTDIR="$sysroot_dir"
 }
@@ -34,20 +34,26 @@ build_bash() {
     build_auto
 }
 
-export PATH="$tools_dir":$PATH
+build_module() {
+    if [ ! -f "$stamps_dir"/$1 ]; then
+        pushd $1
+        build_$1
+        popd
+
+        touch "$stamps_dir"/$1
+    fi
+}
+
+mkdir -p "$stamps_dir"
+
+build_module crosstool-ng
+
+export PATH="$tools_dir"/x86_64-unknown-linux-gnu/bin:$PATH
 export MAKEFLAGS=-j8
 export CPPFLAGS="-I$sysroot_dir/usr/include"
 export LDFLAGS="-L$sysroot_dir/usr/lib"
 
-mkdir -p "$stamps_dir"
-
-for module in crosstool-ng ncurses bash
+for module in ncurses bash
 do
-    if [ ! -f "$stamps_dir"/"$module" ]; then
-        pushd "$module"
-        build_$module
-        popd
-
-        touch "$stamps_dir"/"$module"
-    fi
+    build_module $module
 done
