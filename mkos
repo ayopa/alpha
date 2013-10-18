@@ -45,7 +45,18 @@ build_bash() {
     build_auto
 }
 
+build_expat() {
+    libtoolize -i
+    ./buildconf.sh
+
+    build_auto
+}
+
 build_wayland() {
+    build_auto --with-expat="$sysroot_dir/usr"
+}
+
+build_libffi() {
     build_auto
 }
 
@@ -64,11 +75,12 @@ mkdir -p "$stamps_dir"
 build_module crosstool-ng
 
 export PATH="$tools_dir"/bin:$PATH
+export LD_LIBRARY_PATH="$sysroot_dir"/usr/lib
 export CC="$target-gcc --sysroot=$sysroot_dir"
 export LD="$target-ld --sysroot=$sysroot_dir"
 export MAKEFLAGS=-j8
 
-for module in ncurses bash wayland
+for module in ncurses bash expat libffi wayland
 do
     build_module $module
 done

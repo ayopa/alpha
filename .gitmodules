@@ -10,3 +10,9 @@
 [submodule "wayland"]
 	path = wayland
 	url = git://anongit.freedesktop.org/wayland/wayland
+[submodule "expat"]
+	path = expat
+	url = https://github.com/ayopa/expat.git
+[submodule "libffi"]
+	path = libffi
+	url = https://github.com/atgreen/libffi.git
