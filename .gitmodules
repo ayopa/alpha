@@ -16,3 +16,15 @@
 [submodule "libffi"]
 	path = libffi
 	url = https://github.com/atgreen/libffi.git
+[submodule "drm"]
+	path = drm
+	url = git://anongit.freedesktop.org/git/mesa/drm
+[submodule "pthread-stubs"]
+	path = pthread-stubs
+	url = git://anongit.freedesktop.org/xcb/pthread-stubs
+[submodule "libpciaccess"]
+	path = libpciaccess
+	url = git://anongit.freedesktop.org/xorg/lib/libpciaccess
+[submodule "mesa"]
+	path = mesa
+	url = git://anongit.freedesktop.org/git/mesa/mesa

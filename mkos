@@ -9,8 +9,10 @@ conf_dir="$base_dir/conf"
 tools_dir="$base_dir/tools"
 sysroot_dir="$base_dir/sysroot"
 stamps_dir="$base_dir/stamps"
+
 host=x86_64-unknown-linux-gnu
 target=i686-unknown-linux-gnu
+modules="ncurses bash expat libffi wayland pthread-stubs libpciaccess drm mesa"
 
 build_auto() {
     if [ -f configure ]; then
@@ -33,8 +35,6 @@ build_crosstool-ng() {
     cp "$conf_dir"/crosstool-ng .config
 
     ./ct-ng build
-
-    cp -a "$tools_dir"/$target/sysroot/* "$sysroot_dir"
 }
 
 build_ncurses() {
@@ -60,8 +60,26 @@ build_libffi() {
     build_auto
 }
 
+build_pthread-stubs() {
+    build_auto
+}
+
+build_drm() {
+    build_auto --disable-cairo-tests
+}
+
+build_libpciaccess() {
+    build_auto
+}
+
+build_mesa() {
+    build_auto
+}
+
 build_module() {
     if [ ! -f "$stamps_dir"/$1 ]; then
+        rm -f "$sysroot_dir"/usr/lib/*.la
+
         pushd $1
         build_$1
         popd
@@ -74,13 +92,17 @@ mkdir -p "$stamps_dir"
 
 build_module crosstool-ng
 
+mkdir -p "$sysroot_dir"
+cp -a "$tools_dir"/$target/sysroot/* "$sysroot_dir"
+
 export PATH="$tools_dir"/bin:$PATH
 export LD_LIBRARY_PATH="$sysroot_dir"/usr/lib
 export CC="$target-gcc --sysroot=$sysroot_dir"
 export LD="$target-ld --sysroot=$sysroot_dir"
 export MAKEFLAGS=-j8
+export PKG_CONFIG_PATH="$sysroot_dir"/usr/lib/pkgconfig
 
-for module in ncurses bash expat libffi wayland
+for module in ncurses bash expat libffi wayland pthread-stubs libpciaccess drm mesa
 do
     build_module $module
 done
