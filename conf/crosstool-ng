@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
-# crosstool-NG hg+unknown-20131018.204226 Configuration
-# Fri Oct 18 20:43:36 2013
+# crosstool-NG hg+unknown-20131018.233256 Configuration
+# Fri Oct 18 23:34:22 2013
 #
 CT_CONFIGURE_has_xz=y
 CT_CONFIGURE_has_cvs=y
@@ -343,7 +343,7 @@ CT_CC_SUPPORT_OBJCXX=y
 #
 # Additional supported languages:
 #
-# CT_CC_LANG_CXX is not set
+CT_CC_LANG_CXX=y
 # CT_CC_LANG_JAVA is not set
 
 #

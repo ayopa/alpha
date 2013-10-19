@@ -28,3 +28,15 @@
 [submodule "mesa"]
 	path = mesa
 	url = git://anongit.freedesktop.org/git/mesa/mesa
+[submodule "systemd"]
+	path = systemd
+	url = git://anongit.freedesktop.org/systemd/systemd
+[submodule "libcap"]
+	path = libcap
+	url = git://git.kernel.org/pub/scm/linux/kernel/git/morgan/libcap.git
+[submodule "attr"]
+	path = attr
+	url = git://git.savannah.nongnu.org/attr.git
+[submodule "gettext"]
+	path = gettext
+	url = git://git.savannah.gnu.org/gettext.git

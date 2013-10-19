@@ -12,7 +12,8 @@ stamps_dir="$base_dir/stamps"
 
 host=x86_64-unknown-linux-gnu
 target=i686-unknown-linux-gnu
-modules="ncurses bash expat libffi wayland pthread-stubs libpciaccess drm mesa"
+modules="ncurses bash expat libffi wayland pthread-stubs libpciaccess drm
+         gettext attr libcap systemd mesa"
 
 build_auto() {
     if [ -f configure ]; then
@@ -21,7 +22,8 @@ build_auto() {
         configure=autogen.sh
     fi
 
-    ./$configure $@ --prefix=/usr --host=$target --build=$host
+    ./$configure $@ --prefix=/usr --libdir=/usr/lib --libexecdir=/usr/lib \
+        --host=$target --build=$host
 
     make
     make install DESTDIR="$sysroot_dir"
@@ -73,6 +75,30 @@ build_libpciaccess() {
 }
 
 build_mesa() {
+    build_auto --disable-glx --with-egl-platforms=wayland,drm
+}
+
+build_libcap() {
+    make
+    make install prefix=/usr DESTDIR="$sysroot_dir" RAISE_SETFCAP=no
+}
+
+build_gettext() {
+    build_auto
+}
+
+build_attr() {
+    libtoolize -i
+    aclocal -I m4
+    autoconf
+
+    build_auto
+
+    make install-lib DESTDIR="$sysroot_dir"
+}
+
+build_systemd() {
+    ./autogen.sh
     build_auto
 }
 
@@ -98,11 +124,12 @@ cp -a "$tools_dir"/$target/sysroot/* "$sysroot_dir"
 export PATH="$tools_dir"/bin:$PATH
 export LD_LIBRARY_PATH="$sysroot_dir"/usr/lib
 export CC="$target-gcc --sysroot=$sysroot_dir"
+export CXX="$target-g++ --sysroot=$sysroot_dir"
 export LD="$target-ld --sysroot=$sysroot_dir"
-export MAKEFLAGS=-j8
 export PKG_CONFIG_PATH="$sysroot_dir"/usr/lib/pkgconfig
+export PKG_CONFIG_SYSROOT_DIR="$sysroot_dir"
 
-for module in ncurses bash expat libffi wayland pthread-stubs libpciaccess drm mesa
+for module in $modules
 do
     build_module $module
 done
